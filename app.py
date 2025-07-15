@@ -162,6 +162,7 @@ def update_graph(click_data, reset_clicks):
     return generate_figure(G)
 
 # Run App
+server = app.server
 if __name__ == '__main__':
-    server = app.server
+
     app.run(debug=True)
