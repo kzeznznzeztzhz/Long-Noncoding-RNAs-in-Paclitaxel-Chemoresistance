@@ -163,4 +163,5 @@ def update_graph(click_data, reset_clicks):
 
 # Run App
 if __name__ == '__main__':
+    server = app.server
     app.run(debug=True)
