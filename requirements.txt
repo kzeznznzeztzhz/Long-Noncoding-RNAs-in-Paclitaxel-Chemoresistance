@@ -5,3 +5,4 @@ numpy
 networkx
 openpyxl
 plotly
+gunicorn==20.1.0
