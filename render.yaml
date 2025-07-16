@@ -1,0 +1,7 @@
+sservices:
+  - type: web
+    name: gene-ontology-graph
+    env: python
+    buildCommand: ""
+    startCommand: python app.py
+    plan: free

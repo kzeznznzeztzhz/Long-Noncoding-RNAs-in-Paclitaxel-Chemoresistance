@@ -1,9 +1,7 @@
-dash
-dash-bootstrap-components
 pandas
 numpy
-xlrd>=2.0.1
 networkx
-openpyxl
 plotly
-gunicorn==20.1.0
+dash
+dash-bootstrap-components
+openpyxl
