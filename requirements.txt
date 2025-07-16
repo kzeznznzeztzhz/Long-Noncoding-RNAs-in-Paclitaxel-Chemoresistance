@@ -1,7 +1,7 @@
-pandas
 numpy
 networkx
 plotly
 dash
 dash-bootstrap-components
 openpyxl
+xlrd>=2.0.1
