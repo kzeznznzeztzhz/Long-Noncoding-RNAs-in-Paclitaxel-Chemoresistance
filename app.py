@@ -7,6 +7,7 @@ import numpy as np
 import networkx as nx
 import re
 import plotly.graph_objects as go
+from flask import send_from_directory
 
 # Load your data and build the graph
 df1 = pd.read_excel('function_human.xls', sheet_name='Sheet2')
@@ -167,6 +168,13 @@ def update_graph(click_data, reset_clicks):
         clicked_node = click_data['points'][0]['text']
         return generate_figure(G, focus_node=clicked_node)
     return generate_figure(G)
+
+import os
+from flask import send_from_directory
+
+@app.server.route('/Poster_References.pdf')
+def serve_pdf():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'Poster_References.pdf')
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8050))
