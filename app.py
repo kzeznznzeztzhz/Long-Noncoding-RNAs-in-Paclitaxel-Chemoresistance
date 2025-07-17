@@ -141,9 +141,9 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == "/":
         return html.Div([
-            html.H2("Welcome to the App", className='text-center my-4'),
-            dbc.Button("Go to Gene Ontology Graph", href="/app", color="primary", className="me-2"),
-            dbc.Button("View Static HTML Page", href="/html", color="secondary")
+            html.H2("Appendix of Long Noncoding RNAs in Paclitaxel Chemoresistance", className='text-center my-4'),
+            dbc.Button("Interactive Gene Ontology Graph", href="/app", color="primary", className="me-2"),
+            dbc.Button("Detailed LINC-Cancer Documentation", href="/html", color="secondary")
         ], className='text-center')
     elif pathname == "/app":
         return dbc.Container([
