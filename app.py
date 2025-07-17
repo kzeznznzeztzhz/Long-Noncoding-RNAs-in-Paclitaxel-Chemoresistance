@@ -107,19 +107,25 @@ def generate_figure(G, focus_node=None):
         ]
     ]
 
-    return go.Figure(
-        data=edge_traces + [node_trace] + legend_traces,
-        layout=go.Layout(
-            title='Gene Ontology Graph (Curved Edges + Click to Focus)',
-            showlegend=True,
-            legend=dict(itemsizing='constant', font=dict(size=12)),
-            hovermode='closest',
-            margin=dict(b=20, l=5, r=5, t=40),
-            xaxis=dict(showgrid=False, zeroline=False, visible=False),
-            yaxis=dict(showgrid=False, zeroline=False, visible=False),
-            height=800
+    fig = go.Figure(data=edge_traces + [node_trace] + legend_traces)
+    fig.update_layout(
+        title='Gene Ontology Graph (Tap a Node to Focus)',
+        showlegend=True,
+        hovermode='closest',
+        margin=dict(b=80, l=10, r=10, t=40),
+        height=800,
+        xaxis=dict(showgrid=False, zeroline=False, visible=False),
+        yaxis=dict(showgrid=False, zeroline=False, visible=False),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.25,
+            xanchor="center",
+            x=0.5,
+            font=dict(size=12)
         )
     )
+    return fig
 
 G = build_gene_ontology_graph(filt_ID_bio_process, raw_int_df)
 
@@ -135,16 +141,23 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == "/":
         return html.Div([
-            html.H2("Long Noncoding RNAs in Paclitaxel Chemoresistance Appendix", className='text-center my-4'),
-            dbc.Button("Gene Ontology Graph", href="/app", color="primary", className="me-2"),
-            dbc.Button("Interactive LINC Cancer Documentation", href="/html", color="secondary")
+            html.H2("Welcome to the App", className='text-center my-4'),
+            dbc.Button("Go to Gene Ontology Graph", href="/app", color="primary", className="me-2"),
+            dbc.Button("View Static HTML Page", href="/html", color="secondary")
         ], className='text-center')
     elif pathname == "/app":
         return dbc.Container([
-            html.H1("Gene Ontology Graph (Click a Node to Focus)", className='text-center my-3'),
-            dcc.Graph(id='ontology-graph', figure=generate_figure(G), config={'scrollZoom': True}),
-            dbc.Button("Reset Graph", id='reset-button', color='secondary', className='mt-3')
-        ], fluid=True)
+            html.H1("Gene Ontology Graph (Tap a Node to Focus)", className='text-center my-3'),
+            dbc.Row([
+                dcc.Graph(
+                    id='ontology-graph',
+                    figure=generate_figure(G),
+                    config={'scrollZoom': True},
+                    style={"width": "100%", "height": "auto"}
+                )
+            ], className="gx-0"),
+            dbc.Button("Reset Graph", id='reset-button', color='secondary', className='my-3')
+        ], fluid=True, className="px-2")
     elif pathname == "/html":
         with open("cancer_st.html", 'r', encoding='utf-8') as f:
             html_content = f.read()
@@ -168,9 +181,6 @@ def update_graph(click_data, reset_clicks):
         clicked_node = click_data['points'][0]['text']
         return generate_figure(G, focus_node=clicked_node)
     return generate_figure(G)
-
-import os
-from flask import send_from_directory
 
 @app.server.route('/Poster_References.pdf')
 def serve_pdf():
